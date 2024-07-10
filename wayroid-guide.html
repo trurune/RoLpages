@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RoL (Roblox on Linux)</title>
+<link type="text/css" rel="stylesheet" href="index.css">
+</head>
+<body>
+<center>
+<h1>Roblox On Linux</h1>
+<a href="index.html">Back</a>
+<p>Roblox under Waydroid is surprisingly rather easy to set up!</p>
+<h3>Getting Started</h3>
+<p>The first main prerequisite is getting Waydroid installed, the advice varies distro to distro, a guide for just aobut every distro is found <a href="https://docs.waydro.id/usage/install-on-desktops">here</a></p>
+<h3>Installing Android</h3>
+<p>Simply go into a terminal and type <b>waydroid init</b>, this will install Android to your waydroid container</p>
+<h3>Making it work on X (Wayland users can ignore!)</h3>
+<p>If you use X, you way want to install Weston, as it is a wayland compositor that can be run ON TOP of X, allowing for it to run Wayland-exclusive applications</p>
+<p>Installing Weston generally requires <a href="https://wayland.freedesktop.org/building.html">building it</a>, but on quite a few distros it is simply in your package manager's repository (<b>pacman -S weston</b> on arch worked for me)</p>
+<p>Weston can be started by simply running <b>weston --backend=x11-backend.so</b>, given this is quite a long command, I'd personally reccomend putting it in a script</p>
+<h3>Starting a waydroid session</h3>
+<p>Run <b>waydroid show-full-ui</b> in a terminal (do it inside of the terminal inside weston if on X)</p>
+<p>If all is well, Android should show up! In this case, you know you have done the previous steps correctly, you can move onto the next part</p>
+<h3>Installing GAPPS and libndk</h3>
+<p>Stop your waydroid session with <b>waydroid session stop</b> THIS IS VITAL!</p>
+<p>Download and run <a href="https://github.com/casualsnek/waydroid_script">waydroid_script</a>, there is a one liner on the github page to do this</p>
+<p>Select "Android 11"<p>
+<p>Navigate using the arrowkeys to libndk and GAPPS and hit space<p>
+<p>Press enter to install</p>
+<p>If all has gone well, upon reopening waydroid, you should have the Play Store on your home screen</p>
+<h3>Patching libndk (For AMD Users)</h3>
+<p>You may need to patch libndk on AMD to avoid crashes and severe lag.</p>
+<p>Download the patch <a href="https://nightly.link/Slappy826/libndk-fixer/workflows/build/master/lib.zip">here.</a></p>
+<p>Extract the zip file, you should see a file called libndk_fixer.so</p>
+<p>Edit /var/lib/waydroid/waydroid_base.prop (Don't forget sudo!)</p>
+<p>Find the line that says ro.dalvik.vm.native.bridge=libndk_translation.so and replace the translation with fixer</p>
+<p>Copy the libndk_fixer.so file to this directory /var/lib/waydroid/overlay/system/lib64/</p>
+<p>You are now patched and ready to install Roblox</p>
+<h3>Certification</h3>
+<p>Upon opening Google Play, you will often be told you are "not certified"</p>
+<p>Open a terminal and type in <b>waydroid shell</b>, this will drop you into a shell for your android container<p>
+<p>Run this command <b>ANDROID_RUNTIME_ROOT=/apex/com.android.runtime ANDROID_DATA=/data ANDROID_TZDATA_ROOT=/apex/com.android.tzdata ANDROID_I18N_ROOT=/apex/com.android.i18n sqlite3 /data/data/com.google.android.gsf/databases/gservices.db "select * from main where name = \"android_id\";"</b></p>
+<p>You should get a string of numbers, put them into this page https://www.google.com/android/uncertified</p>
+<p>You are now verified, you may need to reboot your container to get everything to work (<b>waydroid session stop & waydroid show-full-ui</b>)</p>
+<h3>Install Roblox</h3>
+<p>Now it is as simple as logging into your Google account and downloading and installing Roblox. Have fun!</p>
+</center>
+ 
+</body>
